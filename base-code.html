@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>{Title}</title>
+<link rel="shortcut icon" href="{Favicon}">
+{block:Description}
+<meta name="description" content="{MetaDescription}" />
+{/block:Description}
+
+<style>
+*, ::before, ::after { margin: 0; padding: 0; box-sizing: border-box; border: none; position: relative; -webkit-overflow-scrolling: touch; }
+::before, ::after { position: absolute; content: ""; display: block; }
+img { object-fit: cover; max-width: 100%; height: auto; }
+
+body { }
+
+a { }
+a:hover, a:focus { }
+
+b, strong { }
+i, em { }
+u { }
+s { }
+
+blockquote { }
+
+p { }
+
+h1 { }
+h2 { }
+
+ul { }
+ul li { }
+
+ol { }
+pl li { }
+
+.post { width: 500px; margin: 5px auto; border: 1px solid; }
+
+.post-title { }
+
+.read_more { }
+
+.original-post { }
+.reblog { }
+.reblog .username { }
+.reblog .comment { }
+
+.submission { }
+
+.quote .text { }
+.quote .source { }
+
+.chat { }
+.chat b { }
+
+.question { }
+.question .user { }
+.question .text { }
+.answer { }
+.answer .user { }
+.answer .text { }
+
+.link a:first-of-type { }
+
+.post-info { }
+
+.pagination { }
+</style>
+
+</head>
+<body>
+
+<section id="posts">
+
+{block:Posts}<article class="post {PostType}" id="{PostID}">
+
+{block:Title}
+	<h1 class="post-title">{Title}</h1>
+{/block:Title}
+        
+{block:Text}
+    {block:Submission}<div class="submission"><img src="{SubmitterPortraitURL-48}"/><a href="{SubmitterURL}">{Submitter}</a></div>{/block:Submission}
+	{block:NotReblog}<div class="original-post">{Body}</div>{/block:NotReblog}
+	{block:RebloggedFrom}{block:Reblogs}
+	<div class="reblog">
+	{block:HasPermalink}<a href="{Permalink}" class="username">{/block:HasPermalink}{Username}{block:HasPermalink}</a>{/block:HasPermalink}
+	<div class="comment">{Body}</div>
+	</div>
+	{/block:Reblogs}{/block:RebloggedFrom}
+{/block:Text}
+        
+
+{block:Link}
+        <a href="{URL}" {Target}>{Name}</a>
+        {block:Description}
+	{block:NotReblog}<div class="original-post">{Body}</div>{/block:NotReblog}
+	{block:RebloggedFrom}{block:Reblogs}
+	<div class="reblog">
+	{block:HasPermalink}<a href="{Permalink}" class="username">{/block:HasPermalink}{Username}{block:HasPermalink}</a>{/block:HasPermalink}
+	<div class="comment">{Body}</div>
+	</div>
+	{/block:Reblogs}{/block:RebloggedFrom}
+        {/block:Description}
+{/block:Link}
+        
+
+{block:Answer}
+        <div class="question">
+	<div class="user"><img src="{AskerPortraitURL-48}"/>{Asker}</div>
+	<div class="text">{Question}</div>
+        </div>
+        {block:Answerer}
+        <div class="answer">
+	<div class="user"><img src="{AnswererPortraitURL-48}"/>{Answerer}</div>
+	<div class="text">{Answer}</div>
+        </div>
+        {/block:Answerer}
+        {block:Reblogs}
+	<div class="reblog">
+	{block:HasPermalink}<a href="{Permalink}" class="username">{/block:HasPermalink}{Username}{block:HasPermalink}</a>{/block:HasPermalink}
+	<div class="comment">{Body}</div>
+	</div>
+	{/block:Reblogs}
+{/block:Answer}
+        
+        
+{block:Chat}
+	{block:Lines}
+	<div class="chat">
+	<b>{block:Label}{Label}{/block:Label}</b>
+	{Line}</div>
+	{/block:Lines}
+{/block:Chat}
+        
+        
+{block:Quote}
+        <div class="text">{Quote}</div>
+        {block:Source}<div class="source">{Source}</div>{/block:Source}
+{/block:Quote}
+
+
+{block:Photo}<img src="{PhotoURL-HighRes}" alt="{PhotoAlt}">{/block:Photo}
+        {block:Photoset}{Photoset}{/block:Photoset}
+        {block:Audio}{block:AudioEmbed}{AudioEmbed}{/block:AudioEmbed}{/block:Audio}
+{block:Video}{VideoEmbed-500}{/block:Video}
+
+
+{block:Caption}
+        <div class="caption">
+	{block:NotReblog}<div class="original-post">{Caption}</div>{/block:NotReblog}
+	{block:RebloggedFrom}{block:Reblogs}
+	<div class="reblog">
+	{block:HasPermalink}<a href="{Permalink}" class="username">{/block:HasPermalink}{Username}{block:HasPermalink}</a>{/block:HasPermalink}
+	<div class="comment">{Body}</div>
+	</div>
+	{/block:Reblogs}
+	{/block:RebloggedFrom}
+        </div>
+{/block:Caption}
+
+
+{block:Date}<div class="post-info">
+	{block:IndexPage}<a href="{Permalink}">permalink</a>{/block:IndexPage}
+                
+	{block:PermalinkPage}
+	{block:RebloggedFrom}via: <a href="{ReblogParentURL}">{ReblogParentName}</a>{/block:RebloggedFrom} 
+	{block:ContentSource}source: <a href="{SourceURL}">{SourceTitle}</a>{/block:ContentSource}
+	{/block:PermalinkPage}
+                
+	{TimeAgo}
+	{NoteCountWithLabel}
+	{block:HasTags}{block:Tags}#<a href="{TagURL}">{Tag}</a> {/block:Tags}{/block:HasTags}
+</div>{/block:Date}
+            
+{PostNotes}
+
+</article>
+{/block:Posts}
+
+{block:Pagination}<div class="pagination">
+    {block:PreviousPage}<a href="{PreviousPage}">Back</a>{/block:PreviousPage}
+    {CurrentPage}
+    {block:NextPage}<a href="{NextPage}">Back</a>{/block:NextPage}
+</div>{/block:Pagination}
+
+</section>
+
+</body>
+</html>
