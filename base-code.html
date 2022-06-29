@@ -2,12 +2,10 @@
 <html>
 
 <head>
-
 <title>{Title}</title>
+<link rel="alternate" type="application/rss+xml" href="{RSS}">
 <link rel="shortcut icon" href="{Favicon}">
-{block:Description}
-<meta name="description" content="{MetaDescription}" />
-{/block:Description}
+{block:Description}<meta name="description" content="{MetaDescription}" />{/block:Description}
 
 <style>
 *, ::before, ::after { margin: 0; padding: 0; box-sizing: border-box; border: none; position: relative; -webkit-overflow-scrolling: touch; }
@@ -37,20 +35,16 @@ ul li { }
 ol { }
 pl li { }
 
-.post { width: 500px; margin: 5px auto; border: 1px solid; }
-
-.post-title { }
+::-webkit-scrollbar { }
+::-webkit-scrollbar-thumb { }
 
 .read_more { }
 
 .original-post { }
 .reblog { }
-.reblog .username { }
+.reblog .username, .reblog .tumblr_blog { }
 .reblog .comment { }
 
-.submission { }
-
-.quote .text { }
 .quote .source { }
 
 .chat { }
@@ -63,19 +57,24 @@ pl li { }
 .answer .user { }
 .answer .text { }
 
-.link a:first-of-type { }
+.audio-inner { }
+.audio .play-button { }
+.audio iframe.tumblr_audio_player { }
+.trackinfo { }
+
+.submission img, .question img { }
 
 .post-info { }
+.post-info .tags { }
 
 .post-notes { }
-
-.pagination { }
 </style>
 
 </head>
 <body>
 
-<section id="posts">
+<main>
+<section id="content">
 
 {block:Posts}<article class="post {PostType}" id="{PostID}">
 
@@ -84,7 +83,7 @@ pl li { }
 {/block:Title}
         
 {block:Text}
-    {block:Submission}<div class="submission"><img src="{SubmitterPortraitURL-48}"/><a href="{SubmitterURL}">{Submitter}</a></div>{/block:Submission}
+    {block:Submission}<div class="submission"><img src="{SubmitterPortraitURL-24}"/><a href="{SubmitterURL}">{Submitter}</a></div>{/block:Submission}
 	{block:NotReblog}<div class="original-post">{Body}</div>{/block:NotReblog}
 	{block:RebloggedFrom}{block:Reblogs}
 	<div class="reblog">
@@ -96,7 +95,7 @@ pl li { }
         
 
 {block:Link}
-        <a href="{URL}" {Target}>{Name}</a>
+        <h2><a href="{URL}" {Target}>{Name}</a></h2>
         {block:Description}
 	{block:NotReblog}<div class="original-post">{Body}</div>{/block:NotReblog}
 	{block:RebloggedFrom}{block:Reblogs}
@@ -111,12 +110,12 @@ pl li { }
 
 {block:Answer}
         <div class="question">
-	<div class="user"><img src="{AskerPortraitURL-48}"/>{Asker}</div>
+	<div class="user"><img src="{AskerPortraitURL-24}"/>{Asker} asked:</div>
 	<div class="text">{Question}</div>
         </div>
         {block:Answerer}
         <div class="answer">
-	<div class="user"><img src="{AnswererPortraitURL-48}"/>{Answerer}</div>
+	<div class="user"><img src="{AnswererPortraitURL-24}"/>{Answerer} replied:</div>
 	<div class="text">{Answer}</div>
         </div>
         {/block:Answerer}
@@ -127,6 +126,16 @@ pl li { }
 	</div>
 	{/block:Reblogs}
 {/block:Answer}
+
+
+{block:Audio}<div class="audio-inner">{block:AudioPlayer}
+	<div class="play-button" style="background: url({block:AlbumArt}{AlbumArtURL}{/block:AlbumArt}); background-size: cover;">{AudioPlayerGrey}</div>
+	<div class="trackinfo">
+	{block:TrackName}<b>{TrackName}</b>{/block:TrackName}<br>
+	{block:Artist}by {Artist}{/block:Artist}<br>
+	{block:Album}from {Album}{/block:Album}
+	</div>
+{/block:AudioPlayer}</div>{/block:Audio}
         
         
 {block:Chat}
@@ -139,8 +148,8 @@ pl li { }
         
         
 {block:Quote}
-        <div class="text">{Quote}</div>
-        {block:Source}<div class="source">{Source}</div>{/block:Source}
+        <h1>{Quote}</h1>
+        {block:Source}<div class="source">- <b>{Source}</b></div>{/block:Source}
 {/block:Quote}
 
 
@@ -165,30 +174,26 @@ pl li { }
 
 
 {block:Date}<div class="post-info">
-	{block:IndexPage}<a href="{Permalink}">permalink</a>{/block:IndexPage}
+{block:PinnedPostLabel}Pinned Post{/block:PinnedPostLabel}
+	{block:IndexPage}<a href="{Permalink}">Permalink</a>{/block:IndexPage}
                 
-	{block:PermalinkPage}
-	{block:RebloggedFrom}via: <a href="{ReblogParentURL}">{ReblogParentName}</a>{/block:RebloggedFrom} 
-	{block:ContentSource}source: <a href="{SourceURL}">{SourceTitle}</a>{/block:ContentSource}
+	{block:PermalinkPage} 
+	{block:ContentSource}<a href="{SourceURL}">Source</a>{/block:ContentSource}
 	{/block:PermalinkPage}
                 
 	{TimeAgo}
 	{NoteCountWithLabel}
-	{block:HasTags}{block:Tags}#<a href="{TagURL}">{Tag}</a> {/block:Tags}{/block:HasTags}
+	{block:HasTags}<div class="tags">
+	{block:Tags}<a href="{TagURL}">#{Tag}</a> {/block:Tags}
+	</div>{/block:HasTags}
 </div>{/block:Date}
             
 <div class="post-notes">{PostNotes}</div>
 
 </article>
 {/block:Posts}
-
-{block:Pagination}<div class="pagination">
-    {block:PreviousPage}<a href="{PreviousPage}">Back</a>{/block:PreviousPage}
-    {CurrentPage}
-    {block:NextPage}<a href="{NextPage}">Back</a>{/block:NextPage}
-</div>{/block:Pagination}
-
 </section>
+</main>
 
 </body>
 </html>
